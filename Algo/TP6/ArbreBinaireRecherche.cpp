@@ -1,67 +1,40 @@
 #include "ArbreBinaireRecherche.h"
 
-using namespace std;
-
-Sommet::Sommet(valeur p_valeur)
-{
-    racine      = p_valeur;
-    pere        = NULL;
-    FGP         = false;
-    fils_gauche = NULL;
-    fils_droit  = NULL;
+SommetABR::SommetABR(Valeur v){
+  racine=v; SAG=NULL; SAD=NULL;Pere=NULL;
 }
 
-Sommet::Sommet(Sommet& p_sommet)
-{
-    racine = p_sommet.racine;
-    pere   = p_sommet.pere;
-    FGP    = p_sommet.FGP;
-    if(p_sommet.fils_gauche != NULL && p_sommet.fils_droit == NULL)
-        fils_gauche = new Sommet(*p_sommet.fils_gauche);
-    else if(p_sommet.fils_gauche == NULL && p_sommet.fils_droit != NULL)
-        fils_droit = new Sommet(*p_sommet.fils_droit);
-    else if(!p_sommet.est_feuille())
-    {
-        fils_gauche = new Sommet(*p_sommet.fils_gauche);
-        fils_droit  = new Sommet(*p_sommet.fils_droit);
-    }
+SommetABR::SommetABR(SommetABR& s){
+  racine=s.racine; SAG=NULL; SAD=NULL;
+  if (s.SAG) GrefferSAG(new SommetABR(*(s.SAG)));
+  if (s.SAD) GrefferSAD(new SommetABR(*(s.SAD)));
 }
 
-bool Sommet::est_feuille()
-{
-    return fils_gauche == NULL && fils_droit == NULL;
+ABR SommetABR::PlusPetit(){
+  //impl�menter
 }
 
-AB Sommet::plus_petit()
-{
-  if(fils_gauche == NULL)
-    return this;
-  else
-    return fils_gauche->plus_petit();
+ABR SommetABR::RechercherValeur(Valeur v){
+  //impl�menter
 }
 
-AB Sommet::rechercher_valeur(valeur p_valeur)
-{
-  if(racine == p_valeur)
-    return this;
-  else if(racine < p_valeur)
-    return fils_gauche->rechercher_valeur(p_valeur);
-  else
-    return fils_droit->rechercher_valeur(p_valeur);
+void SommetABR::InsererValeur(Valeur v){
+  //impl�menter
 }
 
-void Sommet::inserer_valeur(valeur p_valeur)
-{
-
+ABR SommetABR::SupMin(){
+  //impl�menter
 }
 
-/**
- * Pour une sortie lateX, decommenter les lignes //SortieLatex(...);
- *
- * g++ -c SortieLatex.cpp -o SortieLatex; g++ TP5.cpp SortieLatex -o tp5; ./tp5;
- */
-int main()
-{
 
-    return 42;
+ABR SommetABR::SupprimerValeur(Valeur v){
+  //impl�menter
 }
+
+int main() {
+  ABR A1=new SommetABR(11);
+  //impl�menter
+  return 1;
+}
+
+/* compiler avec g++  ArbreBinaireRecherche.cpp SortieLatex.cpp  */

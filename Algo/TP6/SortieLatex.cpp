@@ -3,50 +3,48 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <cstdlib>
-#include <stdlib.h>
 
 typedef int Valeur;
 
-class Sommet;
+class SommetABR;
 
-typedef Sommet* AB;
+typedef SommetABR* ABR;
 
-void SortieLatex(AB Ar);
+void SortieLatex(ABR Ar);
 
-class Sommet {
+class SommetABR {
   protected:
   Valeur racine;
-  AB Pere,SAG, SAD;
+  ABR Pere,SAG, SAD;
 
   int hauteur,balanceGmoinsD;
 
   public:
-  Sommet(Valeur v);
-  Sommet(Sommet& s);
+  SommetABR(Valeur v);
+  SommetABR(SommetABR& s);
 
- AB remonterToutEnHaut();
+ ABR remonterToutEnHaut();
 
-  void GrefferSAG(AB g);
-  void GrefferSAD(AB d);
+  void GrefferSAG(ABR g);
+  void GrefferSAD(ABR d);
 
   void SupprimerSAG();
   void SupprimerSAD();
 
   bool FeuilleP();
 
-  void RemplacerPourLePerePar(AB);
+  void RemplacerPourLePerePar(ABR);
 
-  friend std::string* TikzRecursAB(int ligne,int gauche, int droite, int numeroPere, int typeFils, AB Ar);
+  friend std::string* TikzRecursABR(int ligne,int gauche, int droite, int numeroPere, int typeFils, ABR Ar);
 
 
 };
 
-std::string* TikzRecursAB(int ligne,int gauche, int droite, int numeroPere, int typeFils, AB Ar);
+std::string* TikzRecursABR(int ligne,int gauche, int droite, int numeroPere, int typeFils, ABR Ar);
 
 
 
-std::string * TikzRecursAB(int ligne,int gauche, int droite, int numeroPere, int typeFils, AB Ar){
+std::string * TikzRecursABR(int ligne,int gauche, int droite, int numeroPere, int typeFils, ABR Ar){
   std::ostringstream ossnum, osslign,osscol,ossnumPere, ossbal, ossnum2Pere,ossnumRac;
 
       std::string stres("");
@@ -65,24 +63,24 @@ std::string * TikzRecursAB(int ligne,int gauche, int droite, int numeroPere, int
     stres="\\node[draw] (SZ" + ossnum.str() + ") at (" + osscol.str() + ", " + osslign.str() + ") { " + ossnumRac.str() + "};\n";
 
     if (typeFils!=-1) stres+="\\draw (SZ"+ossnumPere.str()+") -- (SZ"+ossnum.str() +");\n";
-    if (Ar->SAG) stres+=*TikzRecursAB(ligne -1 ,gauche,mil-1, numero,0,Ar->SAG);
-    if (Ar->SAD) stres+=*TikzRecursAB(ligne - 1,mil+1,droite, numero,1,Ar->SAD);
+    if (Ar->SAG) stres+=*TikzRecursABR(ligne -1 ,gauche,mil-1, numero,0,Ar->SAG);
+    if (Ar->SAD) stres+=*TikzRecursABR(ligne - 1,mil+1,droite, numero,1,Ar->SAD);
  }
   return new std::string(stres);
 }
 
-std::string * TikzAB(AB Ar){
-  return TikzRecursAB(1,1,10,1, -1,Ar);
+std::string * TikzABR(ABR Ar){
+  return TikzRecursABR(1,1,10,1, -1,Ar);
 }
 
- void SortieLatex(AB Ar){
+ void SortieLatex(ABR Ar){
  std::ofstream fichier("fig.tex", std::ios::out | std::ios::trunc);
  std::string preamb ("\\documentclass[a4paper]{article} \n \\usepackage{tikz} \n \\begin{document} \n \\begin{tikzpicture}\n");
   std::cout<<preamb<<"\n";
 std::string post("\\end{tikzpicture}\n  \\end{document} \n");
   std::cout<<post<<"\n";
- std::cout<<*TikzAB(Ar)<<"\n";
-std::string   res1(preamb + *TikzAB(Ar));
+ std::cout<<*TikzABR(Ar)<<"\n";
+std::string   res1(preamb + *TikzABR(Ar));
  std::string   res(res1 + post);
  //std::cout<<res1<<"\n";
   fichier <<res<<"\n";
