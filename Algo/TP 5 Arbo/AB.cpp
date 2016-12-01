@@ -13,10 +13,10 @@ Sommet::Sommet(Valeur v){
 Sommet::Sommet(Sommet& s){
   Pere = NULL;
   if (s.SAG != NULL){
-    SAG = new Sommet(*s.SAG);
+    GrefferSAG(new Sommet(*s.SAG));
   }
   if (s.SAD != NULL){
-    SAD = new Sommet(*s.SAD);
+    GrefferSAD(new Sommet(*s.SAD));
   }
 }
 
@@ -40,10 +40,12 @@ void Sommet::SupprimerSAD(){
 
 void Sommet::GrefferSAG(AB g){
   SAG = g;
+  g->Pere = this;
 }
 
 void Sommet::GrefferSAD(AB d){
   SAD = d;
+  d->Pere = this;
 }
 
 
@@ -58,7 +60,8 @@ int main(int argc, char const *argv[]) {
   aBinaire024->GrefferSAD(new Sommet(4));
   aBinaire024->GrefferSAG(new Sommet(2));
   aBinaire->GrefferSAG(aBinaire024);
-  aBinaire->GrefferSAD(aBinaire024);
-  SortieLatex(aBinaire);
+  AB aBinaire024v2 = new Sommet(*aBinaire024);
+  aBinaire->GrefferSAD(aBinaire024v2);
+  SortieLatex(aBinaire, "test.pdf");
   return 0;
 }

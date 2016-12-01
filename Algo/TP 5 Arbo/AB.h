@@ -39,6 +39,6 @@ class Sommet {
       friend std::string* TikzRecursAB(int ligne,int gauche, int droite, int numeroPere, int typeFils, AB Ar);
 };
 
-
+void SortieLatex(AB Ar, std::string filepath);
 
 #endif
